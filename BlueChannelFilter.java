@@ -1,27 +1,27 @@
 import java.awt.Color;
 
 /**
- * A filter that converts an image to grayscale based on the green channel.
+ * A filter that converts an image to grayscale based on the blue channel.
  * Pixels are replaced with a shade of gray where brightness depends on
- * the intensity of the green component.
+ * the intensity of the blue component.
  *
  * @author (Ernesto Cuellar)
  */
 
-public class GreenChannelFilter extends Filter
+public class BlueChannelFilter extends Filter
 {
     /**
-     * Constructor for GreenChannelFilter.
+     * Constructor for BlueChannelFilter.
      * Sets the name of the filter in the parent Filter class.
      */
-    public GreenChannelFilter()
+    public BlueChannelFilter()
     {
-        super("Green Channel Filter");
+        super("Blue Channel Filter");
     }
 
     /**
      * Applies the filter to the image.
-     * Each pixel is replaced with a grayscale value based on its green component.
+     * Each pixel is replaced with a grayscale value based on its blue component.
      */
     public void apply(OFImage image)
     {
@@ -31,10 +31,10 @@ public class GreenChannelFilter extends Filter
 
                 Color pixel = image.getPixel(x, y);
 
-                int green = pixel.getGreen();
+                int blue = pixel.getBlue();
 
-                // Convert to grayscale using green value only
-                Color newColor = new Color(green, green, green);
+                // Create grayscale color using blue value only
+                Color newColor = new Color(blue, blue, blue);
 
                 image.setPixel(x, y, newColor);
             }
