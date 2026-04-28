@@ -1,18 +1,14 @@
 import java.awt.Color;
 
 /**
- * Creates a flipped Warhol-style 2x2 image:
- * original, red tint (h-flip), green tint (v-flip),
- * blue tint (both flips).
- *
- * @author (Ernesto Cuellar)
+ * Flipped Warhol filter.
  */
 
 public class FlippedWarholFilter extends Filter
 {
-    public FlippedWarholFilter()
+    public FlippedWarholFilter(String name)
     {
-        super("Flipped Warhol Filter");
+        super(name);
     }
 
     public void apply(OFImage image)
@@ -28,50 +24,25 @@ public class FlippedWarholFilter extends Filter
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
 
-                Color pixel = image.getPixel(x, y);
-
-                // TOP LEFT - original
                 if (x < halfW && y < halfH) {
-                    result.setPixel(x, y, pixel);
+                    result.setPixel(x, y, image.getPixel(x, y));
                 }
-
-                // TOP RIGHT - red tint + horizontal flip
                 else if (x >= halfW && y < halfH) {
-
-                    int fx = width - 1 - x;
-
-                    Color flipped = image.getPixel(fx, y);
-
                     result.setPixel(x, y,
-                        new Color(flipped.getRed(), 0, 0));
+                        new Color(image.getPixel(width - 1 - x, y).getRed(), 0, 0));
                 }
-
-                // BOTTOM LEFT - green tint + vertical flip
                 else if (x < halfW && y >= halfH) {
-
-                    int fy = height - 1 - y;
-
-                    Color flipped = image.getPixel(x, fy);
-
                     result.setPixel(x, y,
-                        new Color(0, flipped.getGreen(), 0));
+                        new Color(0, image.getPixel(x, height - 1 - y).getGreen(), 0));
                 }
-
-                // BOTTOM RIGHT - blue tint + both flips
                 else {
-
-                    int fx = width - 1 - x;
-                    int fy = height - 1 - y;
-
-                    Color flipped = image.getPixel(fx, fy);
-
                     result.setPixel(x, y,
-                        new Color(0, 0, flipped.getBlue()));
+                        new Color(0, 0,
+                            image.getPixel(width - 1 - x, height - 1 - y).getBlue()));
                 }
             }
         }
 
-        // Copy result back into original image
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 image.setPixel(x, y, result.getPixel(x, y));

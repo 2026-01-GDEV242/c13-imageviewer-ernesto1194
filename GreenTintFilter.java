@@ -1,29 +1,18 @@
 import java.awt.Color;
 
 /**
- * A filter that applies a green tint to an image.
- * The green component is preserved while red and blue are reduced,
- * giving the image a greenish appearance.
- *
- * @author (Ernesto Cuellar)
+ * Green tint filter.
  */
 
 public class GreenTintFilter extends Filter
 {
-    /**
-     * Constructor for GreenTintFilter.
-     */
-    public GreenTintFilter()
+    public GreenTintFilter(String name)
     {
-        super("Green Tint Filter");
+        super(name);
     }
 
-    /**
-     * Applies a green tint by reducing red and blue values.
-     */
     public void apply(OFImage image)
     {
-        // Loop through every pixel
         for (int x = 0; x < image.getWidth(); x++) {
             for (int y = 0; y < image.getHeight(); y++) {
 
@@ -33,14 +22,8 @@ public class GreenTintFilter extends Filter
                 int green = pixel.getGreen();
                 int blue = pixel.getBlue();
 
-                // Reduce non-green channels
-                Color newColor = new Color(
-                    (int)(red * 0.3),
-                    green,
-                    (int)(blue * 0.3)
-                );
-
-                image.setPixel(x, y, newColor);
+                image.setPixel(x, y,
+                    new Color((int)(red * 0.3), green, (int)(blue * 0.3)));
             }
         }
     }

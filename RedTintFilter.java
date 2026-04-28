@@ -1,29 +1,18 @@
 import java.awt.Color;
 
 /**
- * A filter that applies a red tint to an image.
- * The red component is preserved while green and blue are reduced,
- * giving the image a reddish appearance.
- *
- * @author (Ernesto Cuellar)
+ * Red tint filter.
  */
 
 public class RedTintFilter extends Filter
 {
-    /**
-     * Constructor for RedTintFilter.
-     */
-    public RedTintFilter()
+    public RedTintFilter(String name)
     {
-        super("Red Tint Filter");
+        super(name);
     }
 
-    /**
-     * Applies a red tint by reducing green and blue values.
-     */
     public void apply(OFImage image)
     {
-        // Loop through every pixel
         for (int x = 0; x < image.getWidth(); x++) {
             for (int y = 0; y < image.getHeight(); y++) {
 
@@ -33,14 +22,8 @@ public class RedTintFilter extends Filter
                 int green = pixel.getGreen();
                 int blue = pixel.getBlue();
 
-                // Reduce non-red channels to create tint
-                Color newColor = new Color(
-                    red,
-                    (int)(green * 0.3),
-                    (int)(blue * 0.3)
-                );
-
-                image.setPixel(x, y, newColor);
+                image.setPixel(x, y,
+                    new Color(red, (int)(green * 0.3), (int)(blue * 0.3)));
             }
         }
     }

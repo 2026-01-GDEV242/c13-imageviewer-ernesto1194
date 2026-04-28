@@ -242,22 +242,35 @@ public class ImageViewer
      * @return The list of filters.
      */
     private List<Filter> createFilters()
-    {
-        List<Filter> filterList = new ArrayList<>();
-        filterList.add(new DarkerFilter("Darker"));
-        filterList.add(new LighterFilter("Lighter"));
-        filterList.add(new ThresholdFilter("Threshold"));
-        filterList.add(new InvertFilter("Invert"));
-        filterList.add(new SolarizeFilter("Solarize"));
-        filterList.add(new SmoothFilter("Smooth"));
-        filterList.add(new PixelizeFilter("Pixelize"));
-        filterList.add(new MirrorFilter("Mirror"));
-        filterList.add(new GrayScaleFilter("Grayscale"));
-        filterList.add(new EdgeFilter("Edge Detection"));
-        filterList.add(new FishEyeFilter("Fish Eye"));
-       
-        return filterList;
-    }
+{
+    List<Filter> filterList = new ArrayList<>();
+
+    filterList.add(new DarkerFilter("Darker"));
+    filterList.add(new LighterFilter("Lighter"));
+    filterList.add(new ThresholdFilter("Threshold"));
+    filterList.add(new InvertFilter("Invert"));
+    filterList.add(new SolarizeFilter("Solarize"));
+    filterList.add(new SmoothFilter("Smooth"));
+    filterList.add(new PixelizeFilter("Pixelize"));
+    filterList.add(new MirrorFilter("Mirror"));
+    filterList.add(new GrayScaleFilter("Grayscale"));
+    filterList.add(new EdgeFilter("Edge Detection"));
+    filterList.add(new FishEyeFilter("Fish Eye"));
+
+
+    filterList.add(new RedChannelFilter("Red Channel"));
+    filterList.add(new GreenChannelFilter("Green Channel"));
+    filterList.add(new BlueChannelFilter("Blue Channel"));
+
+    filterList.add(new RedTintFilter("Red Tint"));
+    filterList.add(new GreenTintFilter("Green Tint"));
+    filterList.add(new BlueTintFilter("Blue Tint"));
+
+    filterList.add(new WarholFilter("Warhol"));
+    filterList.add(new FlippedWarholFilter("Flipped Warhol"));
+
+    return filterList;
+}
     
     // ---- Swing stuff to build the frame and all its components and menus ----
     
