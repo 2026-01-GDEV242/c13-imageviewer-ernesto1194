@@ -1,17 +1,18 @@
 import java.awt.Color;
 
 /**
- * Creates a Warhol-style 2x2 image:
- * original, red tint, green tint, and blue tint.
+ * Creates a flipped Warhol-style 2x2 image:
+ * original, red tint (h-flip), green tint (v-flip),
+ * blue tint (both flips).
  *
  * @author (Ernesto Cuellar)
  */
 
-public class WarholFilter extends Filter
+public class FlippedWarholFilter extends Filter
 {
-    public WarholFilter()
+    public FlippedWarholFilter()
     {
-        super("Warhol Filter");
+        super("Flipped Warhol Filter");
     }
 
     public void apply(OFImage image)
@@ -19,43 +20,58 @@ public class WarholFilter extends Filter
         int width = image.getWidth();
         int height = image.getHeight();
 
-        // Create a new blank image twice as big in each direction
         OFImage result = new OFImage(width, height);
 
-        // Half sizes (for scaling)
         int halfW = width / 2;
         int halfH = height / 2;
 
-        // Loop through original image (scaled down sampling)
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
 
                 Color pixel = image.getPixel(x, y);
 
-                // Decide which quadrant this pixel goes to
+                // TOP LEFT - original
                 if (x < halfW && y < halfH) {
-                    // Top-left: original
                     result.setPixel(x, y, pixel);
                 }
+
+                // TOP RIGHT - red tint + horizontal flip
                 else if (x >= halfW && y < halfH) {
-                    // Top-right: red tint
+
+                    int fx = width - 1 - x;
+
+                    Color flipped = image.getPixel(fx, y);
+
                     result.setPixel(x, y,
-                        new Color(pixel.getRed(), 0, 0));
+                        new Color(flipped.getRed(), 0, 0));
                 }
+
+                // BOTTOM LEFT - green tint + vertical flip
                 else if (x < halfW && y >= halfH) {
-                    // Bottom-left: green tint
+
+                    int fy = height - 1 - y;
+
+                    Color flipped = image.getPixel(x, fy);
+
                     result.setPixel(x, y,
-                        new Color(0, pixel.getGreen(), 0));
+                        new Color(0, flipped.getGreen(), 0));
                 }
+
+                // BOTTOM RIGHT - blue tint + both flips
                 else {
-                    // Bottom-right: blue tint
+
+                    int fx = width - 1 - x;
+                    int fy = height - 1 - y;
+
+                    Color flipped = image.getPixel(fx, fy);
+
                     result.setPixel(x, y,
-                        new Color(0, 0, pixel.getBlue()));
+                        new Color(0, 0, flipped.getBlue()));
                 }
             }
         }
 
-        // Replace original image with result
+        // Copy result back into original image
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 image.setPixel(x, y, result.getPixel(x, y));
