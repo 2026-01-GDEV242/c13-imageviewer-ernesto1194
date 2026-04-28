@@ -1,8 +1,9 @@
-import java.awt.Color;
+ import java.awt.Color;
 
 /**
  * Creates a Warhol-style 2x2 image:
- * original, red tint, green tint, and blue tint.
+ * each quadrant shows a quarter-size version of the image
+ * with different color tints applied.
  *
  * @author (Ernesto Cuellar)
  */
@@ -19,43 +20,47 @@ public class WarholFilter extends Filter
         int width = image.getWidth();
         int height = image.getHeight();
 
-        // Create a new blank image twice as big in each direction
         OFImage result = new OFImage(width, height);
 
-        // Half sizes (for scaling)
         int halfW = width / 2;
         int halfH = height / 2;
 
-        // Loop through original image (scaled down sampling)
+        // loop over destination image
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
 
-                Color pixel = image.getPixel(x, y);
+                // map destination pixel to source pixel (scaled down)
+                int srcX = x % halfW;
+                int srcY = y % halfH;
 
-                // Decide which quadrant this pixel goes to
+                Color pixel = image.getPixel(srcX, srcY);
+
+                // TOP LEFT - original (quarter image)
                 if (x < halfW && y < halfH) {
-                    // Top-left: original
                     result.setPixel(x, y, pixel);
                 }
+
+                // TOP RIGHT - red tint (quarter image)
                 else if (x >= halfW && y < halfH) {
-                    // Top-right: red tint
                     result.setPixel(x, y,
                         new Color(pixel.getRed(), 0, 0));
                 }
+
+                // BOTTOM LEFT - green tint (quarter image)
                 else if (x < halfW && y >= halfH) {
-                    // Bottom-left: green tint
                     result.setPixel(x, y,
                         new Color(0, pixel.getGreen(), 0));
                 }
+
+                // BOTTOM RIGHT - blue tint (quarter image)
                 else {
-                    // Bottom-right: blue tint
                     result.setPixel(x, y,
                         new Color(0, 0, pixel.getBlue()));
                 }
             }
         }
 
-        // Replace original image with result
+        // copy result back into original image
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 image.setPixel(x, y, result.getPixel(x, y));
